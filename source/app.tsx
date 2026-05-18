@@ -11,8 +11,8 @@ interface AppProps {
 const App = ({keyword, articles, errorMsg}: AppProps) => {
 	return (
 		<Box flexDirection="column">
-			<Text bold backgroundColor="cyan" color="black">
-				🔍 Tìm kiếm: {keyword}
+			<Text bold backgroundColor="cyan" color="white">
+				Tìm kiếm: {keyword}
 			</Text>
 			{errorMsg && <Text color="red">✖ {errorMsg}</Text>}
 			{articles.length === 0 && !errorMsg && (
