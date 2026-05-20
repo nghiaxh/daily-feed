@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"license": "MIT",
 	"bin": {
-		"df": "dist/cli.js"
+		"dfd": "dist/cli.js"
 	},
 	"type": "module",
 	"engines": {
@@ -19,18 +19,21 @@
 	],
 	"dependencies": {
 		"@types/react-dom": "19.2.3",
-		"commander": "^14.0.3",
 		"html-entities": "^2.6.0",
 		"ink": "^6.8.0",
+		"ink-text-input": "^6.0.0",
 		"meow": "^11.0.0",
 		"react": "19.2.6",
 		"react-dom": "19.2.6",
-		"rss-parser": "^3.13.0"
+		"remove-accents": "^0.5.0",
+		"rss-parser": "^3.13.0",
+		"stopword": "^3.1.5"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^3.0.1",
 		"@types/node": "^25.8.0",
 		"@types/react": "19.2.14",
+		"@types/stopword": "^2.0.3",
 		"@vdemedes/prettier-config": "^2.0.1",
 		"ava": "^5.2.0",
 		"chalk": "^5.2.0",
