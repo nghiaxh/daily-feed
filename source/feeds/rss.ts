@@ -1,5 +1,7 @@
 import Parser from 'rss-parser';
 import {decode} from 'html-entities';
+import removeAccents from 'remove-accents';
+import { removeStopwords, vie } from 'stopword';
 
 const parser = new Parser({timeout: 8000});
 
@@ -12,7 +14,6 @@ export interface Article {
 }
 
 export const DEFAULT_RSS_FEEDS: string[] = [
-	// ==================== VNEXPRESS ====================
 	'https://vnexpress.net/rss/tin-xem-nhieu.rss',
 	'https://vnexpress.net/rss/tin-moi-nhat.rss',
 	'https://vnexpress.net/rss/vne-go.rss',
@@ -30,7 +31,6 @@ export const DEFAULT_RSS_FEEDS: string[] = [
 	'https://vnexpress.net/rss/so-hoa.rss',
 	'https://vnexpress.net/rss/oto-xe-may.rss',
 
-	// ==================== TUỔI TRẺ ====================
 	'https://tuoitre.vn/rss/tin-moi-nhat.rss',
 	'https://tuoitre.vn/rss/thoi-su.rss',
 	'https://tuoitre.vn/rss/the-gioi.rss',
@@ -46,7 +46,6 @@ export const DEFAULT_RSS_FEEDS: string[] = [
 	'https://tuoitre.vn/rss/khoa-hoc.rss',
 	'https://tuoitre.vn/rss/xe.rss',
 
-	// ==================== THANH NIÊN ====================
 	'https://thanhnien.vn/rss/home.rss',
 	'https://thanhnien.vn/rss/thoi-su.rss',
 	'https://thanhnien.vn/rss/the-gioi.rss',
@@ -61,7 +60,6 @@ export const DEFAULT_RSS_FEEDS: string[] = [
 	'https://thanhnien.vn/rss/gioi-tre.rss',
 	'https://thanhnien.vn/rss/xe.rss',
 
-	// ==================== 24H ====================
 	'https://www.24h.com.vn/upload/rss/tintuctrongngay.rss',
 	'https://www.24h.com.vn/upload/rss/bongda.rss',
 	'https://www.24h.com.vn/upload/rss/anninhhinhsu.rss',
@@ -78,7 +76,6 @@ export const DEFAULT_RSS_FEEDS: string[] = [
 	'https://www.24h.com.vn/upload/rss/suckhoedoisong.rss',
 	'https://www.24h.com.vn/upload/rss/cuoi24h.rss',
 
-	// ==================== INFONET (VIETNAMNET) ====================
 	'https://infonet.vietnamnet.vn/rss/doi-song.rss',
 	'https://infonet.vietnamnet.vn/rss/thi-truong.rss',
 	'https://infonet.vietnamnet.vn/rss/the-gioi.rss',
@@ -89,102 +86,26 @@ export const DEFAULT_RSS_FEEDS: string[] = [
 	'https://infonet.vietnamnet.vn/rss/quan-su.rss',
 ];
 
-function removeVietnameseTones(str: string): string {
-	return str
-		.normalize('NFD')
-		.replace(/[\u0300-\u036f]/g, '')
-		.replace(/đ/g, 'd')
-		.replace(/Đ/g, 'D')
-		.toLowerCase();
+function cleanText(text: string): string {
+	return decode(text)
+		.replace(/&apos;/g, "'")
+		.replace(/&quot;/g, '"')
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&#39;/g, "'")
+		.replace(/&#x27;/g, "'");
 }
 
-const STOP_WORDS = new Set([
-	'hom',
-	'nay',
-	'mai',
-	'cua',
-	'va',
-	'la',
-	'thi',
-	'co',
-	'nhung',
-	'cac',
-	'mot',
-	'hai',
-	'ba',
-	'bon',
-	'nam',
-	'sau',
-	'bay',
-	'tam',
-	'chin',
-	'muoi',
-	'duoc',
-	'cho',
-	'voi',
-	'ra',
-	'len',
-	'xuong',
-	'di',
-	'den',
-	'o',
-	'tai',
-	'vi',
-	'nho',
-	'hon',
-	'nhat',
-	'rat',
-	'se',
-	'da',
-	'dang',
-	'khong',
-	've',
-	'tren',
-	'duoi',
-	'giua',
-	'truoc',
-	'sau',
-	'nua',
-	'cung',
-	'chi',
-	'con',
-	'moi',
-	'qua',
-	'lai',
-	'bi',
-	'do',
-	'ma',
-	'nen',
-	'hoac',
-	'co',
-	'the',
-	'nhung',
-	'co',
-	'co',
-	'de',
-	'anh',
-	'chi',
-	'em',
-	'toi',
-	'ban',
-	'nguoi',
-	'tren',
-	'duoi',
-	'vao',
-	'ra',
-	'tu',
-	'den',
-	'voi',
-	've',
-	'cua',
-]);
+function removeVietnameseTones(str: string): string {
+	return removeAccents(str).toLowerCase();
+}
 
-// Tách từ khoá thành các token có nghĩa (không dấu, không phải từ dừng, độ dài >= 2)
 export function extractKeywords(keyword: string): string[] {
 	const noTone = removeVietnameseTones(keyword.trim());
-	return noTone
-		.split(/\s+/)
-		.filter(token => token.length >= 2 && !STOP_WORDS.has(token));
+	const tokens = noTone.split(/\s+/).filter(t => t.length >= 2);
+	const meaningfulTokens = removeStopwords(tokens, vie);
+	return meaningfulTokens;
 }
 
 export async function fetchRSSFeeds(
@@ -206,7 +127,6 @@ export async function fetchRSSFeeds(
 	});
 }
 
-// Tìm kiếm theo danh sách từ khoá (match ít nhất 1 từ)
 export async function fetchRSSFeedsByWords(
 	keywords: string[],
 	customFeeds?: string[],
@@ -243,9 +163,9 @@ async function fetchOneFeed(url: string, kw: string): Promise<Article[]> {
 				);
 			})
 			.map(item => ({
-				title: decode(item.title ?? '(Không có tiêu đề)'),
+				title: cleanText(item.title ?? '(Không có tiêu đề)'),
 				link: item.link ?? '',
-				snippet: decode(
+				snippet: cleanText(
 					(item.contentSnippet ?? item.summary ?? '').slice(0, 250),
 				),
 				source: feed.title ?? new URL(url).hostname,
@@ -283,15 +203,14 @@ async function fetchOneFeedByWords(
 				const snippetNoTone = removeVietnameseTones(
 					item.contentSnippet ?? item.summary ?? '',
 				);
-				// Chỉ cần 1 từ khoá xuất hiện là đủ
 				return kwNoTones.some(
 					kw => titleNoTone.includes(kw) || snippetNoTone.includes(kw),
 				);
 			})
 			.map(item => ({
-				title: decode(item.title ?? '(Không có tiêu đề)'),
+				title: cleanText(item.title ?? '(Không có tiêu đề)'),
 				link: item.link ?? '',
-				snippet: decode(
+				snippet: cleanText(
 					(item.contentSnippet ?? item.summary ?? '').slice(0, 250),
 				),
 				source: feed.title ?? new URL(url).hostname,
