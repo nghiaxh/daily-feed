@@ -26,7 +26,7 @@ npm test               # prettier --check . && xo && ava
 
 ## Testing
 
-- **Framework**: `ava` with `--import=tsx/esm` for TypeScript (not `ts-node`).
+- **Framework**: `ava` with `--import=tsx` for TypeScript (not `ts-node`).
 - Run: `npm test` (runs prettier, xo, then ava).
 - Single test: `npx ava source/__tests__/ui.tsx`.
 - Tests are in `source/__tests__/` (not root); ava config restricts to this path.
