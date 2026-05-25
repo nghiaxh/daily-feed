@@ -1,8 +1,8 @@
-# AGENTS.md — daily-feed
+# AGENTS.md — teed
 
 ## What it is
 
-Vietnamese CLI news reader. Ink (React for terminals) app that aggregates RSS feeds and searches by keyword. Built with TypeScript, bundled via `tsc` to `dist/`.
+CLI news reader for Vietnamese RSS feeds. Ink (React for terminals) app that aggregates RSS feeds and searches by keyword. Built with TypeScript, bundled via `tsc` to `dist/`.
 
 ## Commands
 
@@ -18,8 +18,8 @@ npm test               # prettier --check . && xo && ava
 | Path | Role |
 |---|---|
 | `source/cli.tsx` | CLI entrypoint (`bin` → `dist/cli.js`). Clears console, renders `<App>` via Ink. |
-| `source/app.tsx` | Main app component: input handling, `/commands`, search orchestration. Exports `relativeTime`, `truncate` for testing. |
-| `source/config.ts` | Reads/writes custom feeds to `~/.dfd_feeds.json`. Falls back to 80+ built-in defaults. |
+| `source/app.tsx` | Main app component: input handling, `/commands`, search with spinner animation, keyboard navigation (↑↓) through results, Enter to view details, `o` to open link. Exports `relativeTime`, `truncate` for testing. |
+| `source/config.ts` | Reads/writes custom feeds to `~/.teed_feeds.json`. Also manages settings (`~/.teed_settings.json`) for article limit. Falls back to 80+ built-in defaults. |
 | `source/feeds/rss.ts` | RSS fetching, HTML decoding, Vietnamese accent removal, stopword filtering, keyword matching. Concurrency-limited to 5 simultaneous requests. |
 | `source/feeds/aggregator.ts` | Orchestrates fetch: exact match first, then falls back to OR token search. Dedupes & limits results. |
 | `source/__tests__/ui.tsx` | Tests. Uses `ava` + `ink-testing-library`. |
@@ -43,7 +43,16 @@ Fetches use a concurrent pool (5 simultaneous requests) with 1 retry on failure.
 
 ## Config persistence
 
-Custom RSS feeds are stored at `~/.dfd_feeds.json`. Deleting this file resets to defaults.
+- Custom RSS feeds are stored at `~/.teed_feeds.json`. Deleting this file resets to defaults.
+- Settings (article limit) are stored at `~/.teed_settings.json`. Configured via `/setup <5-10>`.
+
+## Keyboard navigation
+
+When search results are displayed:
+- **↑/↓** — Navigate through articles
+- **Enter** — View article details
+- **o** — Open article link in browser (from detail view)
+- **Esc/Enter** — Close detail view and return to list
 
 ## Debugging
 
@@ -56,5 +65,5 @@ DEBUG=1 npm run dev
 ## Runtime
 
 - Node >= 18.
-- Published as `@nghiaxh/daily-feed`, CLI binary: `dfd`.
-- Global install: `npm install -g @nghiaxh/daily-feed`.
+- Published as `@nghiaxh/teed`, CLI binary: `teed`.
+- Global install: `npm install -g @nghiaxh/teed`.

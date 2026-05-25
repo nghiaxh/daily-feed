@@ -160,7 +160,7 @@ async function fetchOneFeed(url: string, kw: string): Promise<Article[]> {
 					);
 				})
 				.map(item => ({
-					title: cleanText(item.title ?? '(Không có tiêu đề)'),
+					title: cleanText(item.title ?? '(No title)'),
 					link: item.link ?? '',
 					snippet: cleanText(
 						(item.contentSnippet ?? item.summary ?? '').slice(0, 250),
@@ -181,7 +181,7 @@ async function fetchOneFeed(url: string, kw: string): Promise<Article[]> {
 			}
 
 			console.error(
-				`Lỗi khi fetch feed ${url}:`,
+				`Error fetching feed ${url}:`,
 				e instanceof Error ? e.message : e,
 			);
 			return [];
@@ -218,7 +218,7 @@ async function fetchOneFeedByWords(
 					);
 				})
 				.map(item => ({
-					title: cleanText(item.title ?? '(Không có tiêu đề)'),
+					title: cleanText(item.title ?? '(No title)'),
 					link: item.link ?? '',
 					snippet: cleanText(
 						(item.contentSnippet ?? item.summary ?? '').slice(0, 250),
@@ -241,7 +241,7 @@ async function fetchOneFeedByWords(
 			}
 
 			console.error(
-				`Lỗi khi fetch feed ${url}:`,
+				`Error fetching feed ${url}:`,
 				e instanceof Error ? e.message : e,
 			);
 			return [];

@@ -10,10 +10,10 @@ export async function aggregateNews(
 	limit: number,
 	customFeeds?: string[],
 ): Promise<Article[]> {
-	// Tìm kiếm chính xác trước
+	// Try exact keyword match first
 	let raw = await fetchRSSFeeds(keyword, customFeeds);
 
-	// Nếu không có kết quả, thử tách từ khoá và tìm theo OR
+	// Fall back to OR search with extracted tokens
 	if (raw.length === 0) {
 		const tokens = extractKeywords(keyword);
 		if (tokens.length > 0) {

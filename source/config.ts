@@ -3,7 +3,7 @@ import {homedir} from 'os';
 import {join} from 'path';
 import {DEFAULT_RSS_FEEDS} from './feeds/rss.js';
 
-const CONFIG_PATH = join(homedir(), '.dfd_feeds.json');
+const CONFIG_PATH = join(homedir(), '.teed_feeds.json');
 
 export function loadFeeds(): string[] {
 	if (!existsSync(CONFIG_PATH)) return DEFAULT_RSS_FEEDS;

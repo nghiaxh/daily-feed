@@ -1,9 +1,9 @@
 {
-	"name": "@nghiaxh/daily-feed",
+	"name": "@nghiaxh/teed",
 	"version": "0.0.1",
 	"license": "MIT",
 	"bin": {
-		"dfd": "dist/cli.js"
+		"teed": "dist/cli.js"
 	},
 	"type": "module",
 	"engines": {
@@ -92,6 +92,7 @@
 		"rss",
 		"cli",
 		"news",
-		"vietnam"
+		"terminal",
+		"reader"
 	]
 }
