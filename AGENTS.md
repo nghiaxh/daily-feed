@@ -15,14 +15,14 @@ npm test               # prettier --check . && xo && ava
 
 ## Entrypoints & structure
 
-| Path | Role |
-|---|---|
-| `source/cli.tsx` | CLI entrypoint (`bin` → `dist/cli.js`). Clears console, renders `<App>` via Ink. |
-| `source/app.tsx` | Main app component: input handling, `/commands`, search with spinner animation, keyboard navigation (↑↓) through results, Enter to view details, `o` to open link. Exports `relativeTime`, `truncate` for testing. |
-| `source/config.ts` | Reads/writes custom feeds to `~/.teed_feeds.json`. Also manages settings (`~/.teed_settings.json`) for article limit. Falls back to 80+ built-in defaults. |
-| `source/feeds/rss.ts` | RSS fetching, HTML decoding, Vietnamese accent removal, stopword filtering, keyword matching. Concurrency-limited to 5 simultaneous requests. |
-| `source/feeds/aggregator.ts` | Orchestrates fetch: exact match first, then falls back to OR token search. Dedupes & limits results. |
-| `source/__tests__/ui.tsx` | Tests. Uses `ava` + `ink-testing-library`. |
+| Path                         | Role                                                                                                                                                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `source/cli.tsx`             | CLI entrypoint (`bin` → `dist/cli.js`). Clears console, renders `<App>` via Ink.                                                                                                                                   |
+| `source/app.tsx`             | Main app component: input handling, `/commands`, search with spinner animation, keyboard navigation (↑↓) through results, Enter to view details, `o` to open link. Exports `relativeTime`, `truncate` for testing. |
+| `source/config.ts`           | Reads/writes custom feeds to `~/.teed_feeds.json`. Also manages settings (`~/.teed_settings.json`) for article limit. Falls back to 80+ built-in defaults.                                                         |
+| `source/feeds/rss.ts`        | RSS fetching, HTML decoding, Vietnamese accent removal, stopword filtering, keyword matching. Concurrency-limited to 5 simultaneous requests.                                                                      |
+| `source/feeds/aggregator.ts` | Orchestrates fetch: exact match first, then falls back to OR token search. Dedupes & limits results.                                                                                                               |
+| `source/__tests__/ui.tsx`    | Tests. Uses `ava` + `ink-testing-library`.                                                                                                                                                                         |
 
 ## Testing
 
@@ -49,6 +49,7 @@ Fetches use a concurrent pool (5 simultaneous requests) with 1 retry on failure.
 ## Keyboard navigation
 
 When search results are displayed:
+
 - **↑/↓** — Navigate through articles
 - **Enter** — View article details
 - **o** — Open article link in browser (from detail view)

@@ -2,7 +2,13 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {Text, Box, useStdout, useInput} from 'ink';
 import TextInput from 'ink-text-input';
 import {aggregateNews} from './feeds/aggregator.js';
-import {loadFeeds, addFeed, removeFeed, loadSettings, saveSettings} from './config.js';
+import {
+	loadFeeds,
+	addFeed,
+	removeFeed,
+	loadSettings,
+	saveSettings,
+} from './config.js';
 import type {Article} from './feeds/rss.js';
 import {exec} from 'node:child_process';
 
@@ -106,11 +112,7 @@ const FeedRow = ({
 	);
 };
 
-const DetailView = ({
-	article,
-}: {
-	article: Article;
-}) => (
+const DetailView = ({article}: {article: Article}) => (
 	<Box flexDirection="column" paddingX={1}>
 		<Text bold color="green">
 			{article.title}
@@ -124,13 +126,9 @@ const DetailView = ({
 				{article.link}
 			</Text>
 		</Box>
-		{article.snippet && (
-			<Text wrap="wrap">{article.snippet}</Text>
-		)}
+		{article.snippet && <Text wrap="wrap">{article.snippet}</Text>}
 		<Box marginTop={1}>
-			<Text dimColor>
-				[Enter] Back  [o] Open link
-			</Text>
+			<Text dimColor>[Enter] Back [o] Open link</Text>
 		</Box>
 	</Box>
 );
@@ -145,7 +143,9 @@ const App = () => {
 	const [message, setMessage] = useState('');
 	const [searched, setSearched] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [detailArticle, setDetailArticle] = useState<Article | undefined>(undefined);
+	const [detailArticle, setDetailArticle] = useState<Article | undefined>(
+		undefined,
+	);
 	const [showFeedList, setShowFeedList] = useState(false);
 	const [feedSelectedIndex, setFeedSelectedIndex] = useState(0);
 	const [spinnerFrame, setSpinnerFrame] = useState(0);
@@ -276,9 +276,7 @@ const App = () => {
 				const result = await aggregateNews(trimmed, settings.limit, feeds);
 				setArticles(result);
 			} catch (e) {
-				setError(
-					e instanceof Error ? e.message : 'Unknown error',
-				);
+				setError(e instanceof Error ? e.message : 'Unknown error');
 			} finally {
 				setLoading(false);
 				setInput('');
@@ -303,9 +301,7 @@ const App = () => {
 					</Box>
 				)}
 
-				{detailArticle && (
-					<DetailView article={detailArticle} />
-				)}
+				{detailArticle && <DetailView article={detailArticle} />}
 
 				{showFeedList && !detailArticle && (
 					<Box flexDirection="column" minHeight={contentMaxHeight - 2}>
@@ -380,7 +376,7 @@ const App = () => {
 					<Text bold color="green">
 						{'>'}
 					</Text>
-					<Text>{' '}</Text>
+					<Text> </Text>
 					<TextInput
 						value={input}
 						onChange={setInput}

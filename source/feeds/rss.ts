@@ -155,8 +155,7 @@ async function fetchOneFeed(url: string, kw: string): Promise<Article[]> {
 						item.contentSnippet ?? item.summary ?? '',
 					);
 					return (
-						titleNoTone.includes(kwNoTone) ||
-						snippetNoTone.includes(kwNoTone)
+						titleNoTone.includes(kwNoTone) || snippetNoTone.includes(kwNoTone)
 					);
 				})
 				.map(item => ({
@@ -213,8 +212,7 @@ async function fetchOneFeedByWords(
 						item.contentSnippet ?? item.summary ?? '',
 					);
 					return kwNoTones.some(
-						kw =>
-							titleNoTone.includes(kw) || snippetNoTone.includes(kw),
+						kw => titleNoTone.includes(kw) || snippetNoTone.includes(kw),
 					);
 				})
 				.map(item => ({

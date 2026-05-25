@@ -38,13 +38,13 @@ Start the app, type a keyword, and press **Enter** to search for news.
 
 ### Commands
 
-| Command            | Description                              |
-|--------------------|------------------------------------------|
-| `/list`            | List all available RSS feeds             |
-| `/add <url>`       | Add a new RSS feed                       |
-| `/remove <url\|*>` | Remove a feed, or use `*` to reset       |
-| `/exit`            | Exit the program                         |
-| `Ctrl+C`           | Quick exit                               |
+| Command            | Description                        |
+| ------------------ | ---------------------------------- |
+| `/list`            | List all available RSS feeds       |
+| `/add <url>`       | Add a new RSS feed                 |
+| `/remove <url\|*>` | Remove a feed, or use `*` to reset |
+| `/exit`            | Exit the program                   |
+| `Ctrl+C`           | Quick exit                         |
 
 ## Feed management
 
