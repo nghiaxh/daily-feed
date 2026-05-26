@@ -68,3 +68,26 @@ DEBUG=1 npm run dev
 - Node >= 18.
 - Published as `@nghiaxh/teed`, CLI binary: `teed`.
 - Global install: `npm install -g @nghiaxh/teed`.
+
+## Git commit convention
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>): <description>
+```
+
+Types: `feat`, `fix`, `docs`, `refactor`, `chore`, `style`, `perf`, `test`, `ci`, `build`.
+
+- `feat` — new feature
+- `fix` — bug fix
+- `docs` — documentation changes
+- `refactor` — code refactoring (no behavior change)
+- `chore` — maintenance, dependencies, config
+- `style` — code formatting, CSS
+- `ci` — CI/CD
+- `build` — build system
+
+Scope (optional) is the affected file/directory. E.g. `feat(cli):`, `fix(rss):`, `chore(deps):`.
+
+Write descriptions in English, present tense, lowercase, no trailing period.
